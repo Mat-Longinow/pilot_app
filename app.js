@@ -10,6 +10,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 console.log('You have entered the app!');
 
+scrape.scrapeInit();
+
 app.post('/sms', (req, res) => {
     const twiml = new MessagingResponse();
 
