@@ -19,6 +19,7 @@ exports.sendMessage = function(body1, body2) {
 };
 
 exports.errorMessage = function() {
+    console.log('made it to send_message');
     client.messages
         .create({
             body: 'Oops, something went wrong! You should probably take a look.',
