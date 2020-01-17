@@ -8,7 +8,7 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => res.send('Hello World!'));
+console.log('You have entered the app!');
 
 app.post('/sms', (req, res) => {
     const twiml = new MessagingResponse();
