@@ -4,6 +4,8 @@ const client = require('twilio')(accountSid, authToken);
 const incomingNumber = require('./app.js');
 require('dotenv').config();
 
+console.log('made it to send_message');
+
 exports.sendMessage = function(body1, body2) {
     client.messages
         .create({
