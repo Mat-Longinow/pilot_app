@@ -35,6 +35,7 @@ exports.scrapeInit = () => {
             await browser.close();
 
             if(foundData[0] === undefined || foundData[1] === undefined) {
+                console.log('made it to error!');
                 twil.errorMessage();
             }else{
                 twil.sendMessage(foundData[0], foundData[1]);
