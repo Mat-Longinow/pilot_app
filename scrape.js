@@ -1,10 +1,11 @@
 const puppeteer = require('puppeteer');
 const twil = require('./send_message.js');
+const root = require('./app.js');
 
 exports.scrapeInit = () => {
     (async () => {
         try {
-            console.log('You have entered scrape.js');
+            console.log(root.newTime(), 'You have entered scrape.js');
             const browser = await puppeteer.launch();
             const page = await browser.newPage();
 
@@ -35,10 +36,10 @@ exports.scrapeInit = () => {
             await browser.close();
 
             if(foundData[0] === undefined || foundData[1] === undefined) {
-                console.log('Uh oh, error finding the SCE data. Text incoming.');
+                console.log(root.newTime(), 'Uh oh, error finding the SCE data. Text incoming.');
                 twil.errorMessage();
             }else{
-                console.log('Got the data! Text incoming.');
+                console.log(root.newTime(), 'Got the data! Text incoming.');
                 twil.sendMessage(foundData[0], foundData[1]);
             }
 

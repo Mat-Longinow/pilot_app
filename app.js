@@ -8,7 +8,9 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-console.log('You have entered the app!');
+exports.newTime = () => new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"});
+
+console.log(newTime(), 'You have entered the app!');
 
 app.get('/', (req, res) => {
     res.send('Welcome to Mats app!');
@@ -26,11 +28,11 @@ app.post('/sms', (req, res) => {
     if(req.body.Body == 'SCE') {
         scrape.scrapeInit();
 
-        twiml.message('SCE SUPER POWERS ACTIVATED! Just give me one second to just... do this... one thing...');
+        twiml.message('SUPER POWERS ACTIVATED! Just give me one second to just... do this... one thing...');
     }
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
 });
 
-app.listen(port, () => console.log(`Mat's app listening on port ${port}!`));
+app.listen(port, () => console.log(newTime(), `Mat's app listening on port ${port}!`));
