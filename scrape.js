@@ -16,7 +16,7 @@ exports.scrapeInit = () => {
             await page.type('#password', process.env.PASS);
             await page.click('#homePageLogin');
 
-            await page.waitFor(5000);
+            await page.waitFor(10000);
 
             let foundData = await page.evaluate(() => {
                 let data = document.querySelectorAll('p');
@@ -35,10 +35,10 @@ exports.scrapeInit = () => {
             await browser.close();
 
             if(foundData[0] === undefined || foundData[1] === undefined) {
-                console.log('made it to error!');
+                console.log('Uh oh, error finding the SCE data. Text incoming.');
                 twil.errorMessage();
             }else{
-                console.log('made it to send text');
+                console.log('Got the data! Text incoming.');
                 twil.sendMessage(foundData[0], foundData[1]);
             }
 

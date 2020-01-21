@@ -4,8 +4,6 @@ const client = require('twilio')(accountSid, authToken);
 const incomingNumber = require('./app.js');
 require('dotenv').config();
 
-console.log('made it to send_message');
-
 exports.sendMessage = function(body1, body2) {
     client.messages
         .create({
@@ -19,7 +17,6 @@ exports.sendMessage = function(body1, body2) {
 };
 
 exports.errorMessage = function() {
-    console.log('made it to send_message');
     client.messages
         .create({
             body: 'Oops, something went wrong! You should probably take a look.',
