@@ -8,7 +8,7 @@ exports.sendMessage = function(body1, body2) {
     client.messages
         .create({
             body: 'Hello Mat! This is your friendly reminder. Your current bill is ' + body1 + '. And here is your ' + body2,
-            from: process.env.TWILIO_NUMBER,
+            from: '+17143404784',
             to: root.incomingNumber
         })
         .then(
@@ -20,7 +20,7 @@ exports.errorMessage = function() {
     client.messages
         .create({
             body: 'Oops, something went wrong! You should probably take a look.',
-            from: process.env.TWILIO_NUMBER,
+            from: '+17143404784',
             to: root.incomingNumber
         })
         .then(
