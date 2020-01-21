@@ -10,6 +10,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 console.log('You have entered the app!');
 
+app.get('/', (req, res) => {
+    res.send('Welcome to Mats app!')
+});
+
 scrape.scrapeInit();
 
 app.post('/sms', (req, res) => {
