@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 console.log('You have entered the app!');
 
 app.get('/', (req, res) => {
-    res.send('Welcome to Mats app!')
+    res.send('Welcome to Mats app!');
 });
 
 scrape.scrapeInit();
@@ -33,4 +33,4 @@ app.post('/sms', (req, res) => {
     res.end(twiml.toString());
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Mat's app listening on port ${port}!`));

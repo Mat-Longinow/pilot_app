@@ -38,6 +38,7 @@ exports.scrapeInit = () => {
                 console.log('made it to error!');
                 twil.errorMessage();
             }else{
+                console.log('made it to send text');
                 twil.sendMessage(foundData[0], foundData[1]);
             }
 
