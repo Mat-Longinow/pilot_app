@@ -5,7 +5,7 @@ exports.scrapeInit = () => {
     (async () => {
         try {
             console.log('You have entered scrape.js');
-            const browser = await puppeteer.launch();
+            const browser = await puppeteer.launch({headless: false});
             const page = await browser.newPage();
 
             await page.goto('http://sce.com');

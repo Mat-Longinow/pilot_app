@@ -11,7 +11,7 @@ exports.sendMessage = function(body1, body2) {
         .create({
             body: 'Hello Mat! This is your friendly reminder. Your current bill is ' + body1 + '. And here is your ' + body2,
             from: '+17143404784',
-            to: incomingNumber.incomingNumber
+            to: '+19516409304'
         })
         .then(
             message => console.log(new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"}), message.sid)
