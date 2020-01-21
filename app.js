@@ -4,19 +4,18 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 1337;
 const scrape = require('./scrape.js');
+const root = require('./app.js');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 exports.newTime = () => new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"});
 
-console.log(newTime(), 'You have entered the app!');
+console.log(root.newTime(), 'You have entered the app!');
 
 app.get('/', (req, res) => {
     res.send('Welcome to Mats app!');
 });
-
-scrape.scrapeInit();
 
 app.post('/sms', (req, res) => {
     const twiml = new MessagingResponse();
@@ -29,10 +28,12 @@ app.post('/sms', (req, res) => {
         scrape.scrapeInit();
 
         twiml.message('SUPER POWERS ACTIVATED! Just give me one second to just... do this... one thing...');
+    }else{
+        twiml.message('Hmmm... I would love to help you, but it looks like I am not understanding you...')
     }
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
 });
 
-app.listen(port, () => console.log(newTime(), `Mat's app listening on port ${port}!`));
+app.listen(port, () => console.log(root.newTime(), `Mat's app listening on port ${port}!`));
