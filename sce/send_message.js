@@ -1,7 +1,7 @@
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
-const root = require('./app.js');
+const root = require('./../app.js');
 require('dotenv').config();
 
 exports.sendMessage = function(body1, body2) {

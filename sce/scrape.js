@@ -1,12 +1,12 @@
 const puppeteer = require('puppeteer');
 const twil = require('./send_message.js');
-const root = require('./app.js');
+const root = require('./../app.js');
 
 exports.scrapeInit = () => {
     (async () => {
         try {
             console.log(root.newTime(), 'You have entered scrape.js');
-            const browser = await puppeteer.launch();
+            const browser = await puppeteer.launch({headless: true});
             const page = await browser.newPage();
 
             await page.goto('http://sce.com');
