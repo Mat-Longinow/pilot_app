@@ -36,10 +36,16 @@ app.post('/sms', (req, res) => {
         sce_scrape.scrapeInit();
 
         twiml.message('SUPER POWERS ACTIVATED! Just give me one second to just... do this... one thing...');
+
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twiml.toString());
     } else if (req.body.Body == 'southwest' || req.body.Body == 'Southwest' || req.body.Body == 'South west' || req.body.Body == 'south west') {
         sce_scrape.scrapeInit();
 
         twiml.message('SUPER POWERS ACTIVATED! Just give me one second to just... do this... one thing...');
+
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twiml.toString());
     } else if (req.body.Body == 'test' || req.body.Body == 'Test') {
         console.log(root.newTime(), 'You entered test');
 
@@ -48,19 +54,27 @@ app.post('/sms', (req, res) => {
         twiml.message(message);
 
         upSmsCounter();
+
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twiml.toString());
     }else if(smsCount > 0) {
-        textConvo.textConvo(req, smsCount);
+        textConvo.textConvo(req, res, smsCount);
     }else if(req.body.Body == 'reset' || req.body.Body == 'Reset') {
         req.session.counter = 0;
+
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twiml.toString());
     }else if(req.body.Body == 'counter' || req.body.Body == 'Counter') {
         twiml.message('Your conversation counter is currently ' + smsCount);
+
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twiml.toString());
     }else{
         twiml.message('Hmmm... I would love to help you, but it looks like I am not understanding you...')
+
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twiml.toString());
     }
-
-
-    res.writeHead(200, {'Content-Type': 'text/xml'});
-    res.end(twiml.toString());
 });
 
 app.listen(port, () => console.log(root.newTime(), `Mat's app listening on port ${port}!`));

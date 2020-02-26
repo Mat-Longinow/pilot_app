@@ -1,6 +1,8 @@
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
+const root = require('./../app.js');
+const searchParams = require('./search_params.js');
 
-exports.textConvo = (req, count) => {
+exports.textConvo = (req, res, count) => {
     const twiml = new MessagingResponse();
     const smsCount = count;
     const request = req;
@@ -8,32 +10,40 @@ exports.textConvo = (req, count) => {
         req.session.counter = smsCount + 1;
     };
 
-    console.log('You are now in sms_convo.js');
+    const clearSmsCounter = () => {
+        req.session.counter = 0;
+    };
 
-    let message = 'you got to the next page!';
+    console.log(root.newTime(), 'You are now in sms_convo.js');
 
-    twiml.message(message);
+    let message = '';
 
     if(smsCount === 1) {
-        message = 'Hello, thanks for message number ' + (smsCount + 1);
+        message = 'What is the date?';
 
-        console.log('You made your way to smsCount 1: ' + request.body.Body);
+        twiml.message(message);
 
         upSmsCounter();
     } else if(smsCount === 2) {
-        console.log('You made your way to smsCount 2: ' + request.body.Body);
+        searchParams.search_params.date = req.body.Body;
 
-        message = 'Wow, you really like responding, huh? That is message number ' + (smsCount + 1);
-
-        twiml.message(message);
-    } else if(smsCount === 3) {
-
-        console.log('You made your way to smsCount 3: ' + request.body.Body);
-
-        message = "Wow, that is a bit much, don't you think? " + smsCount + '... really?';
+        message = searchParams.search_params.date + ' huh? Well, then what is the airport?';
 
         twiml.message(message);
 
         upSmsCounter();
+    } else if(smsCount === 3) {
+        searchParams.search_params.dept_station = req.body.Body;
+
+        message = 'Flying out of ' + searchParams.search_params.dept_station + '? Cool!'
+
+        twiml.message(message);
+
+        clearSmsCounter();
+
+        console.log(searchParams.search_params);
     }
+
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
 };
