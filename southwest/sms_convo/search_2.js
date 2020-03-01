@@ -6,11 +6,11 @@ exports.textConvo1 = (req, res, count) => {
     const twiml = new MessagingResponse();
     const search2Count = count;
     const upsearch2Counter = () => {
-        req.session.counter = search2Count + 1;
+        req.session.search1Counter = search2Count + 1;
     };
 
     const clearsearch2Counter = () => {
-        req.session.counter = 0;
+        req.session.search1Counter = 0;
     };
 
     console.log(root.newTime(), 'You are now in search_2.js');

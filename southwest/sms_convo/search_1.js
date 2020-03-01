@@ -6,18 +6,22 @@ exports.textConvo1 = (req, res, count) => {
     const twiml = new MessagingResponse();
     const search1Count = count;
     const upSearch1Counter = () => {
-        req.session.counter = search1Count + 1;
+        req.session.search1Counter = search1Count + 1;
     };
 
     const clearsearch1Counter = () => {
-        req.session.counter = 0;
+        req.session.search1Counter = 0;
     };
 
-    console.log(root.newTime(), 'You are now in search_1.js');
+    console.log(root.newTime(), 'You are now in search_1.js', count);
 
     let message = '';
 
     if(search1Count === 1) {
+        message = 'Hello Will! Let me get this search started for you...';
+
+        twiml.message(message);
+
         message = 'What date are you looking for?';
 
         twiml.message(message);
@@ -59,7 +63,7 @@ exports.textConvo1 = (req, res, count) => {
 
         twiml.message(message);
 
-        clearsearch1Counter();
+        upSearch1Counter();
     }else if(search1Count === 5) {
         searchParams.search_params.dept_station = req.body.Body;
 
@@ -73,9 +77,9 @@ exports.textConvo1 = (req, res, count) => {
 
         upSearch1Counter();
     }else if(search1Count === 6) {
-        searchParams.search_params.dept_station = req.body.Body;
+        searchParams.search_params.arr_station = req.body.Body;
 
-        message = 'Flying into ' + searchParams.search_params.dept_station + "? Stay away from the shrimp. Just... trust me...";
+        message = 'Flying into ' + searchParams.search_params.arr_station + "? Stay away from the shrimp. Just... trust me...";
 
         twiml.message(message);
 
@@ -85,7 +89,7 @@ exports.textConvo1 = (req, res, count) => {
 
         upSearch1Counter();
     }else if(search1Count === 7) {
-        searchParams.search_params.dept_station = req.body.Body;
+        searchParams.search_params.legs = req.body.Body;
 
         message = "Yeah, you're right, any more than " + searchParams.search_params.legs + ' legs would be just weird.';
 
