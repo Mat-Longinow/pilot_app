@@ -9,10 +9,6 @@ exports.textConvo1 = (req, res, count) => {
         req.session.search1Counter = search1Count + 1;
     };
 
-    const clearsearch1Counter = () => {
-        req.session.search1Counter = 0;
-    };
-
     console.log(root.newTime(), 'You are now in search_1.js', count);
 
     let message = '';
@@ -29,7 +25,7 @@ exports.textConvo1 = (req, res, count) => {
         upSearch1Counter();
 
     }else if(search1Count === 2) {
-        searchParams.search_params.date = req.body.Body;
+        searchParams.search_params.date.push(req.body.Body);
 
         message = searchParams.search_params.date + '. Got it.';
 
@@ -41,7 +37,7 @@ exports.textConvo1 = (req, res, count) => {
 
         upSearch1Counter();
     }else if(search1Count === 3) {
-        searchParams.search_params.dept_time = req.body.Body;
+        searchParams.search_params.dept_time.push(req.body.Body);
 
         message = 'Flying out at ' + searchParams.search_params.dept_time + '? Cool!';
 
@@ -53,7 +49,7 @@ exports.textConvo1 = (req, res, count) => {
 
         upSearch1Counter();
     }else if(search1Count === 4) {
-        searchParams.search_params.arr_time = req.body.Body;
+        searchParams.search_params.arr_time.push(req.body.Body);
 
         message = 'Arriving at ' + searchParams.search_params.arr_time + '. Noted.';
 
@@ -65,7 +61,7 @@ exports.textConvo1 = (req, res, count) => {
 
         upSearch1Counter();
     }else if(search1Count === 5) {
-        searchParams.search_params.dept_station = req.body.Body;
+        searchParams.search_params.dept_station.push(req.body.Body);
 
         message = 'Flying out of ' + searchParams.search_params.dept_station + "? Great choice, I've heard the burgers are fabulous there.";
 
@@ -77,7 +73,7 @@ exports.textConvo1 = (req, res, count) => {
 
         upSearch1Counter();
     }else if(search1Count === 6) {
-        searchParams.search_params.arr_station = req.body.Body;
+        searchParams.search_params.arr_station.push(req.body.Body);
 
         message = 'Flying into ' + searchParams.search_params.arr_station + "? Stay away from the shrimp. Just... trust me...";
 
@@ -89,18 +85,20 @@ exports.textConvo1 = (req, res, count) => {
 
         upSearch1Counter();
     }else if(search1Count === 7) {
-        searchParams.search_params.legs = req.body.Body;
+        searchParams.search_params.legs.push(req.body.Body);
 
         message = "Yeah, you're right, any more than " + searchParams.search_params.legs + ' legs would be just weird.';
 
         twiml.message(message);
 
-        message =  'Alright! Would you like to search again? (Maximum of 5 searches before this plane crashes... see what I did there?)';
+        message =  'Alright! Would you like to search again? (Maximum of 3 searches before this plane crashes... see what I did there?)';
 
         twiml.message(message);
 
         upSearch1Counter();
     }
+
+    console.log(searchParams.search_params);
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());

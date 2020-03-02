@@ -7,6 +7,8 @@ const port = 1337;
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 const textConvo1 = require('./southwest/sms_convo/search_1.js');
+const textConvo2 = require('./southwest/sms_convo/search_2.js');
+const textConvo3 = require('./southwest/sms_convo/search_3.js');
 const sce_scrape = require('./sce/scrape.js');
 const root = require('./app.js');
 const searchParams = require('./southwest/search_params');
@@ -45,24 +47,28 @@ app.post('/sms', (req, res) => {
         search1Count = req.session.search1Counter;
     };
 
-    const search2Count = '';
+    let search2Count = req.session.search2Counter || 0;
     const upSearch2Counter = () => {
-        req.session.search1Counter = search1Count + 1;
+        req.session.search2Counter = search2Count + 1;
+
+        search2Count = req.session.search2Counter;
     };
 
-    const search3Count = '';
+    const clearSearch2Counter = () => {
+        req.session.search2Counter = 0;
+
+        search2Count = req.session.search2Counter;
+    };
+
+    const search3Count = req.session.search3Counter || 0;
     const upSearch3Counter = () => {
-        req.session.search1Counter = search1Count + 1;
+        req.session.search3Counter = search3Count + 1;
     };
 
-    const search4Count = '';
-    const upSearch4Counter = () => {
-        req.session.search1Counter = search1Count + 1;
-    };
+    const clearSearch3Counter = () => {
+        req.session.search3Counter = 0;
 
-    const search5Count = '';
-    const upSearch5Counter = () => {
-        req.session.search1Counter = search1Count + 1;
+        search3Count = req.session.search3Counter;
     };
 
     // Get the incoming number and export it to be used in send_message.js
@@ -87,11 +93,13 @@ app.post('/sms', (req, res) => {
         textConvo1.textConvo1(req, res, search1Count);
     }else if(search1Count === 8) {
         if(req.body.Body == 'yes' || req.body.Body == 'Yes') {
+            clearSearch1Counter();
 
+            upSearch2Counter();
+
+            textConvo2.textConvo2(req, res, search2Count);
         }else if(req.body.Body == 'no' || req.body.Body == 'No') {
             twiml.message('Sounds good, let me grab your results real fast.');
-
-            console.log(searchParams.search_params);
 
             clearSearch1Counter();
 
@@ -104,13 +112,29 @@ app.post('/sms', (req, res) => {
             res.end(twiml.toString());
         }
     }else if(search2Count > 0) {
-        textConvo1.textConvo1(req, res, search2Count);
+        textConvo2.textConvo2(req, res, search2Count);
+    }else if(search2Count === 8) {
+        if(req.body.Body == 'yes' || req.body.Body == 'Yes') {
+            clearSearch2Counter();
+
+            upSearch3Counter();
+
+            textConvo3.textConvo3(req, res, search3Count);
+        }else if(req.body.Body == 'no' || req.body.Body == 'No') {
+            twiml.message('Sounds good, let me grab your results real fast.');
+
+            clearSearch2Counter();
+
+            res.writeHead(200, {'Content-Type': 'text/xml'});
+            res.end(twiml.toString());
+        }else{
+            twiml.message('Hmm... looks like you need to try again. Let me know either Yes or No.');
+
+            res.writeHead(200, {'Content-Type': 'text/xml'});
+            res.end(twiml.toString());
+        }
     }else if(search3Count > 0) {
-        textConvo1.textConvo1(req, res, search3Count);
-    }else if(search4Count > 0) {
-        textConvo1.textConvo1(req, res, search4Count);
-    }else if(search5Count > 0) {
-        textConvo1.textConvo1(req, res, search5Count);
+        textConvo3.textConvo3(req, res, search3Count);
     }else{
         twiml.message('Hmmm... I would love to help you, but it looks like I am not understanding you...');
 

@@ -2,30 +2,30 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const root = require('./../../app.js');
 const searchParams = require('./../search_params.js');
 
-exports.textConvo2 = (req, res, count) => {
+exports.textConvo3 = (req, res, count) => {
     const twiml = new MessagingResponse();
-    const search2Count = count;
-    const upsearch2Counter = () => {
-        req.session.search2Counter = search2Count + 1;
+    const search3Count = count;
+    const upsearch3Counter = () => {
+        req.session.search3Counter = search3Count + 1;
     };
 
-    console.log(root.newTime(), 'You are now in search_2.js');
+    console.log(root.newTime(), 'You are now in search_3.js');
 
     let message = '';
 
-    if(search2Count === 1) {
-        twiml.message('Sounds good, round 2!');
+    if(search3Count === 1) {
+        twiml.message('Sounds good, final round');
 
         message = 'What date are you looking for?';
 
         twiml.message(message);
 
-        upsearch2Counter();
+        upsearch3Counter();
 
-    }else if(search2Count === 2) {
+    }else if(search3Count === 2) {
         searchParams.search_params.date.push(req.body.Body);
 
-        message = searchParams.search_params.date[1] + '. Got it.';
+        message = searchParams.search_params.date[2] + '. Got it.';
 
         twiml.message(message);
 
@@ -33,11 +33,11 @@ exports.textConvo2 = (req, res, count) => {
 
         twiml.message(message);
 
-        upsearch2Counter();
-    }else if(search2Count === 3) {
+        upsearch3Counter();
+    }else if(search3Count === 3) {
         searchParams.search_params.dept_time.push(req.body.Body);
 
-        message = 'Flying out at ' + searchParams.search_params.dept_time[1] + '? Cool!';
+        message = 'Flying out at ' + searchParams.search_params.dept_time[2] + '? Cool!';
 
         twiml.message(message);
 
@@ -45,11 +45,11 @@ exports.textConvo2 = (req, res, count) => {
 
         twiml.message(message);
 
-        upsearch2Counter();
-    }else if(search2Count === 4) {
+        upsearch3Counter();
+    }else if(search3Count === 4) {
         searchParams.search_params.arr_time.push(req.body.Body);
 
-        message = 'Arriving at ' + searchParams.search_params.arr_time[1] + '. Noted.';
+        message = 'Arriving at ' + searchParams.search_params.arr_time[2] + '. Noted.';
 
         twiml.message(message);
 
@@ -57,11 +57,11 @@ exports.textConvo2 = (req, res, count) => {
 
         twiml.message(message);
 
-        upsearch2Counter();
-    }else if(search2Count === 5) {
+        upsearch3Counter();
+    }else if(search3Count === 5) {
         searchParams.search_params.dept_station.push(req.body.Body);
 
-        message = 'Flying out of ' + searchParams.search_params.dept_station[1] + "? Great choice, I've heard the burgers are fabulous there.";
+        message = 'Flying out of ' + searchParams.search_params.dept_station[2] + "? Great choice, I've heard the burgers are fabulous there.";
 
         twiml.message(message);
 
@@ -69,11 +69,11 @@ exports.textConvo2 = (req, res, count) => {
 
         twiml.message(message);
 
-        upsearch2Counter();
-    }else if(search2Count === 6) {
+        upsearch3Counter();
+    }else if(search3Count === 6) {
         searchParams.search_params.arr_station.push(req.body.Body);
 
-        message = 'Flying into ' + searchParams.search_params.arr_station[1] + "? Stay away from the shrimp. Just... trust me...";
+        message = 'Flying into ' + searchParams.search_params.arr_station[2] + "? Stay away from the shrimp. Just... trust me...";
 
         twiml.message(message);
 
@@ -81,19 +81,19 @@ exports.textConvo2 = (req, res, count) => {
 
         twiml.message(message);
 
-        upsearch2Counter();
-    }else if(search2Count === 7) {
+        upsearch3Counter();
+    }else if(search3Count === 7) {
         searchParams.search_params.legs.push(req.body.Body);
 
-        message = "Yeah, you're right, any more than " + searchParams.search_params.legs[1] + ' legs would be just weird.';
+        message = "Yeah, you're right, any more than " + searchParams.search_params.legs[2] + ' legs would be just weird.';
 
         twiml.message(message);
 
-        message =  'Alright! Would you like to search again? (Maximum of 3 searches before this plane crashes... see what I did there?)';
+        message =  'Alright! Would you like to search again? (Maximum of 5 searches before this plane crashes... see what I did there?)';
 
         twiml.message(message);
 
-        upsearch2Counter();
+        upsearch3Counter();
     }
 
     console.log(searchParams.search_params);
