@@ -10,6 +10,7 @@ const textConvo1 = require('./southwest/sms_convo/search_1.js');
 const textConvo2 = require('./southwest/sms_convo/search_2.js');
 const textConvo3 = require('./southwest/sms_convo/search_3.js');
 const sce_scrape = require('./sce/scrape.js');
+const southwest_scrape = require('./southwest/scrape.js');
 const root = require('./app.js');
 const searchParams = require('./southwest/search_params');
 
@@ -60,9 +61,11 @@ app.post('/sms', (req, res) => {
         search2Count = req.session.search2Counter;
     };
 
-    const search3Count = req.session.search3Counter || 0;
+    let search3Count = req.session.search3Counter || 0;
     const upSearch3Counter = () => {
         req.session.search3Counter = search3Count + 1;
+
+        search3Count = req.session.search3Counter;
     };
 
     const clearSearch3Counter = () => {
@@ -85,10 +88,12 @@ app.post('/sms', (req, res) => {
     } else if (req.body.Body == 'southwest' || req.body.Body == 'Southwest' || req.body.Body == 'South west' || req.body.Body == 'south west') {
         console.log(root.newTime(), 'You entered Southwest');
 
-        upSearch1Counter();
-        console.log(req.session);
+        southwest_scrape.scrapeInit();
 
-        textConvo1.textConvo1(req, res, search1Count);
+        // upSearch1Counter();
+        // console.log(req.session);
+        //
+        // textConvo1.textConvo1(req, res, search1Count);
     }else if(search1Count > 0 && search1Count < 8) {
         textConvo1.textConvo1(req, res, search1Count);
     }else if(search1Count === 8) {
@@ -111,10 +116,12 @@ app.post('/sms', (req, res) => {
             res.writeHead(200, {'Content-Type': 'text/xml'});
             res.end(twiml.toString());
         }
-    }else if(search2Count > 0) {
+    }else if(search2Count > 0 && search2Count < 8) {
         textConvo2.textConvo2(req, res, search2Count);
     }else if(search2Count === 8) {
+
         if(req.body.Body == 'yes' || req.body.Body == 'Yes') {
+
             clearSearch2Counter();
 
             upSearch3Counter();

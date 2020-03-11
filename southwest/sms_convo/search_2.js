@@ -4,9 +4,11 @@ const searchParams = require('./../search_params.js');
 
 exports.textConvo2 = (req, res, count) => {
     const twiml = new MessagingResponse();
-    const search2Count = count;
+    let search2Count = count;
     const upsearch2Counter = () => {
         req.session.search2Counter = search2Count + 1;
+
+        search2Count = req.session.search2Counter;
     };
 
     console.log(root.newTime(), 'You are now in search_2.js');
@@ -94,6 +96,8 @@ exports.textConvo2 = (req, res, count) => {
         twiml.message(message);
 
         upsearch2Counter();
+
+        console.log(search2Count);
     }
 
     console.log(searchParams.search_params);

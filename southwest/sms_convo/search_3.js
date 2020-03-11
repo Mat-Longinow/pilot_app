@@ -14,6 +14,8 @@ exports.textConvo3 = (req, res, count) => {
     let message = '';
 
     if(search3Count === 1) {
+        console.log('you made it to 1');
+
         twiml.message('Sounds good, final round');
 
         message = 'What date are you looking for?';
@@ -89,7 +91,7 @@ exports.textConvo3 = (req, res, count) => {
 
         twiml.message(message);
 
-        message =  'Alright! Would you like to search again? (Maximum of 5 searches before this plane crashes... see what I did there?)';
+        message =  "Alright! Let's get you those results";
 
         twiml.message(message);
 
