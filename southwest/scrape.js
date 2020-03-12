@@ -17,19 +17,15 @@ exports.scrapeInit = () => {
             await page.type('input[type="password"]', process.env.SW_PASS);
             await page.click('.submitButton');
 
-            await page.waitFor(10000);
+            await page.waitFor(5000);
 
-            await page.click('div.megamenuItemGreen');
-
-            await page.waitFor(2000);
-
-            await page.click('div.myWorkNavigation.borderGreen div.linkContainer div.navLink:nth-child(2)');
+            await page.goto('https://www.swalife.com/wps/myportal/swalife/mywork/flightops/standards/linechecksolver');
 
             await page.waitFor(2000);
 
-            let myWorkButton = await page.evaluate(() => {
-                let data = document.querySelectorAll('div')
-            })
+            // let myWorkButton = await page.evaluate(() => {
+            //     let data = document.querySelectorAll('div')
+            // })
 
             // let foundData = await page.evaluate(() => {
             //     let data = document.querySelectorAll('p');
