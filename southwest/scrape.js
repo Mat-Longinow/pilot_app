@@ -17,11 +17,32 @@ exports.scrapeInit = () => {
             await page.type('input[type="password"]', process.env.SW_PASS);
             await page.click('.submitButton');
 
-            await page.waitFor(5000);
+            await page.waitFor(2000);
 
-            await page.goto('https://www.swalife.com/wps/myportal/swalife/mywork/flightops/standards/linechecksolver');
+            // Ended up being able to access just the iframe url to take us to a page with just the iframe
+            // Did this by calling const frame = page.frames().find(frame => frame.name() === 'menu'); and inspecting the object to find the url
+            const frame = await page.frames().find(frame => frame.name() === 'menu');
+
+            let cookies = await page.cookies();
+
+            console.log(cookies);
+
+            // const buildASolution = await frame.$eval('#input', (element) => {
+            //     console.log(element);
+            //
+            //     return element;
+            // });
+
+            await page.goto('https://lcs.swalife.com/line-check-solver-ui/menu.jsp');
+
+            await page.click('#input');
 
             await page.waitFor(2000);
+
+            await page.waitFor(1000);
+
+            await page.select('#dateSelection', 'Mar 14, 2020');
+            // const text = await frame.$eval('.selector', element => element.textContent);
 
             // let myWorkButton = await page.evaluate(() => {
             //     let data = document.querySelectorAll('div')
