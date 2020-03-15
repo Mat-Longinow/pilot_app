@@ -13,10 +13,7 @@ const sce_scrape = require('./sce/scrape.js');
 const southwest_scrape = require('./southwest/scrape.js');
 const root = require('./app.js');
 const searchParams = require('./southwest/search_params');
-const cookieParser = require('cookie-parser');
 
-
-app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
     session(

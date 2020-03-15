@@ -17,31 +17,46 @@ exports.scrapeInit = () => {
             await page.type('input[type="password"]', process.env.SW_PASS);
             await page.click('.submitButton');
 
-            await page.waitFor(2000);
-
-            // Ended up being able to access just the iframe url to take us to a page with just the iframe
-            // Did this by calling const frame = page.frames().find(frame => frame.name() === 'menu'); and inspecting the object to find the url
-            const frame = await page.frames().find(frame => frame.name() === 'menu');
-
-            let cookies = await page.cookies();
-
-            console.log(cookies);
-
-            // const buildASolution = await frame.$eval('#input', (element) => {
-            //     console.log(element);
-            //
-            //     return element;
-            // });
-
-            await page.goto('https://lcs.swalife.com/line-check-solver-ui/menu.jsp');
-
-            await page.click('#input');
-
-            await page.waitFor(2000);
+            await page.goto('https://www.swalife.com/wps/myportal/swalife/mywork/flightops/standards/linechecksolver');
 
             await page.waitFor(1000);
 
-            await page.select('#dateSelection', 'Mar 14, 2020');
+            // this grabs the iframe to manipulate
+            const menuFrame = await page.frames().find(frame => frame.name() === 'menu');
+
+            await menuFrame.click('div#input');
+
+            await page.waitFor(7000);
+
+            // this grabs the iframe to manipulate
+            const solutionFrame = await page.frames().find(frame => frame.name() === 'body');
+
+            // select only takes in value, so need to get
+            const selectItemOne = await solutionFrame.$eval('#dateSelection option:first-child', element => element.value);
+            const selectItemTwo = await solutionFrame.$eval('#dateSelection option:nth-child(2)', element => element.value);
+            const selectItemThree = await solutionFrame.$eval('#dateSelection option:nth-child(3)', element => element.value);
+            const selectItemFour = await solutionFrame.$eval('#dateSelection option:nth-child(4)', element => element.value);
+
+            let dates = {
+                today: selectItemOne,
+                todayPlusOne: selectItemTwo,
+                todayPlusTwo: selectItemThree,
+                todayPlusThree: selectItemFour
+            };
+
+            console.log(dates);
+
+            await solutionFrame.select('#dateSelection', dates.todayPlusOne);
+
+            // await page.goto('https://lcs.swalife.com/line-check-solver-ui/menu.jsp');
+            //
+            // await page.click('#input');
+            //
+            // await page.waitFor(2000);
+            //
+            // await page.waitFor(1000);
+            //
+            // await page.select('#dateSelection', 'Mar 14, 2020');
             // const text = await frame.$eval('.selector', element => element.textContent);
 
             // let myWorkButton = await page.evaluate(() => {
