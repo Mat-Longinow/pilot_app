@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const twil = require('./send_message.js');
 const root = require('./../app.js');
+const params = require('./search_params.js');
 
 exports.scrapeInit = () => {
     (async () => {
@@ -37,6 +38,8 @@ exports.scrapeInit = () => {
             const selectItemThree = await solutionFrame.$eval('#dateSelection option:nth-child(3)', element => element.value);
             const selectItemFour = await solutionFrame.$eval('#dateSelection option:nth-child(4)', element => element.value);
 
+            
+            
             let dates = {
                 today: selectItemOne,
                 todayPlusOne: selectItemTwo,
@@ -46,7 +49,69 @@ exports.scrapeInit = () => {
 
             console.log(dates);
 
+            // search #1
+
+            console.log('search #1');
+
             await solutionFrame.select('#dateSelection', dates.todayPlusOne);
+
+            await solutionFrame.select('#departureTimeSelection', '6.5');
+
+            await solutionFrame.select('#arrivalTimeSelection', '12.5');
+
+            await solutionFrame.select('select[name="departureStation"]', 'SNA');
+
+            await solutionFrame.select('select[name="arrivalStation"]', 'LAX');
+
+            await solutionFrame.select('select[name="legs"]', '3');
+
+            await solutionFrame.click('#submitDiv .buttonFace');
+
+            await page.waitFor(15000);
+
+            // search #2
+
+            console.log('search #2');
+
+            await menuFrame.click('div#input');
+
+            await page.waitFor(5000);
+
+            await solutionFrame.select('#dateSelection', dates.todayPlusTwo);
+
+            await solutionFrame.select('#departureTimeSelection', '8.5');
+
+            await solutionFrame.select('#arrivalTimeSelection', '11.5');
+
+            await solutionFrame.select('select[name="departureStation"]', 'SNA');
+
+            await solutionFrame.select('select[name="arrivalStation"]', 'LAX');
+
+            await solutionFrame.select('select[name="legs"]', '2');
+
+            await solutionFrame.click('#submitDiv .buttonFace');
+
+            // search #3
+
+            console.log('search #3');
+
+            await menuFrame.click('div#input');
+
+            await page.waitFor(5000);
+
+            await solutionFrame.select('#dateSelection', dates.todayPlusTwo);
+
+            await solutionFrame.select('#departureTimeSelection', '6.5');
+
+            await solutionFrame.select('#arrivalTimeSelection', '10.5');
+
+            await solutionFrame.select('select[name="departureStation"]', 'SNA');
+
+            await solutionFrame.select('select[name="arrivalStation"]', 'LAX');
+
+            await solutionFrame.select('select[name="legs"]', '4');
+
+            await solutionFrame.click('#submitDiv .buttonFace');
 
             // await page.goto('https://lcs.swalife.com/line-check-solver-ui/menu.jsp');
             //
