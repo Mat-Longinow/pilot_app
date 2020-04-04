@@ -91,6 +91,8 @@ exports.scrapeInit = () => {
 
             await solutionFrame.click('#submitDiv .buttonFace');
 
+            await page.waitFor(15000);
+
             // search #3
 
             console.log('search #3');
@@ -113,44 +115,7 @@ exports.scrapeInit = () => {
 
             await solutionFrame.click('#submitDiv .buttonFace');
 
-            // await page.goto('https://lcs.swalife.com/line-check-solver-ui/menu.jsp');
-            //
-            // await page.click('#input');
-            //
-            // await page.waitFor(2000);
-            //
-            // await page.waitFor(1000);
-            //
-            // await page.select('#dateSelection', 'Mar 14, 2020');
-            // const text = await frame.$eval('.selector', element => element.textContent);
-
-            // let myWorkButton = await page.evaluate(() => {
-            //     let data = document.querySelectorAll('div')
-            // })
-
-            // let foundData = await page.evaluate(() => {
-            //     let data = document.querySelectorAll('p');
-            //
-            //     let found = [];
-            //
-            //     data.forEach(element => {
-            //         if (element.innerText.includes('$')) {
-            //             found.push(element.innerText);
-            //         }
-            //     });
-            //
-            //     return found;
-            // });
-            //
-            // await browser.close();
-            //
-            // if(foundData[0] === undefined || foundData[1] === undefined) {
-            //     console.log(root.newTime(), 'Uh oh, error finding the SCE data. Text incoming.');
-            //     twil.errorMessage();
-            // }else{
-            //     console.log(root.newTime(), 'Got the data! Text incoming.');
-            //     twil.sendMessage(foundData[0], foundData[1]);
-            // }
+            await page.waitFor(15000);
 
         } catch (err) {
             console.log(Error(err));

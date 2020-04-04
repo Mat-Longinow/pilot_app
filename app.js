@@ -14,6 +14,8 @@ const southwest_scrape = require('./southwest/scrape.js');
 const root = require('./app.js');
 const searchParams = require('./southwest/search_params');
 
+const convert = require('./southwest/data_converter.js');
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
     session(
@@ -78,14 +80,14 @@ app.post('/sms', (req, res) => {
     let incomingNumber = req.body.From;
     exports.incomingNumber = incomingNumber;
 
-    if (req.body.Body == 'SCE' || req.body.Body == 'sce' || req.body.Body == 'Sce') {
+    if(req.body.Body == 'SCE' || req.body.Body == 'sce' || req.body.Body == 'Sce') {
         sce_scrape.scrapeInit();
 
         twiml.message('SUPER POWERS ACTIVATED! Just give me one second to just... do this... one thing...');
 
         res.writeHead(200, {'Content-Type': 'text/xml'});
         res.end(twiml.toString());
-    } else if (req.body.Body == 'southwest' || req.body.Body == 'Southwest' || req.body.Body == 'South west' || req.body.Body == 'south west') {
+    }else if (req.body.Body == 'southwest' || req.body.Body == 'Southwest' || req.body.Body == 'South west' || req.body.Body == 'south west') {
         console.log(root.newTime(), 'You entered Southwest');
 
         southwest_scrape.scrapeInit();
@@ -142,6 +144,15 @@ app.post('/sms', (req, res) => {
         }
     }else if(search3Count > 0) {
         textConvo3.textConvo3(req, res, search3Count);
+    }else if(req.body.Body.includes('convert')) {
+        let testConvert = req.body.Body;
+        testConvert = testConvert.replace('convert', '');
+
+        if(testConvert.includes(' ')) {
+            testConvert = testConvert.replace(' ', '');
+        }
+        
+        convert.dateConvert(testConvert);
     }else{
         twiml.message('Hmmm... I would love to help you, but it looks like I am not understanding you...');
 
