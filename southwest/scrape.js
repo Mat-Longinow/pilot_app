@@ -2,11 +2,35 @@ const puppeteer = require('puppeteer');
 const twil = require('./send_message.js');
 const root = require('./../app.js');
 const params = require('./search_params.js');
+const convert = require('./data_converter.js');
 
 exports.scrapeInit = () => {
     (async () => {
         try {
             console.log(root.newTime(), 'You have entered scrape.js');
+
+            let dates = [];
+            let dept_time = [];
+            let arr_time = [];
+
+            params.search_params.dates.forEach((date) => {
+                dates.push(convert.dateConvert(date));
+            });
+
+            params.search_params.dept_time.forEach((time) => {
+                dept_time.push(convert.timeConvert(time));
+            });
+
+            params.search_params.arr_time.forEach((time) => {
+                arr_time.push(convert.timeConvert(time));
+            });
+
+            console.log(params.search_params.dept_time, 'should be converted to: ', dept_time);
+            console.log(params.search_params.arr_time, 'should be converted to: ', arr_time);
+
+
+
+
             const browser = await puppeteer.launch({headless: false});
             const page = await browser.newPage();
 
@@ -37,23 +61,19 @@ exports.scrapeInit = () => {
             const selectItemTwo = await solutionFrame.$eval('#dateSelection option:nth-child(2)', element => element.value);
             const selectItemThree = await solutionFrame.$eval('#dateSelection option:nth-child(3)', element => element.value);
             const selectItemFour = await solutionFrame.$eval('#dateSelection option:nth-child(4)', element => element.value);
-
             
-            
-            let dates = {
+            let searchDates = {
                 today: selectItemOne,
                 todayPlusOne: selectItemTwo,
                 todayPlusTwo: selectItemThree,
                 todayPlusThree: selectItemFour
             };
 
-            console.log(dates);
-
             // search #1
 
             console.log('search #1');
 
-            await solutionFrame.select('#dateSelection', dates.todayPlusOne);
+            await solutionFrame.select('#dateSelection', searchDates.todayPlusOne);
 
             await solutionFrame.select('#departureTimeSelection', '6.5');
 
@@ -77,7 +97,7 @@ exports.scrapeInit = () => {
 
             await page.waitFor(5000);
 
-            await solutionFrame.select('#dateSelection', dates.todayPlusTwo);
+            await solutionFrame.select('#dateSelection', searchDates.todayPlusTwo);
 
             await solutionFrame.select('#departureTimeSelection', '8.5');
 
@@ -101,7 +121,7 @@ exports.scrapeInit = () => {
 
             await page.waitFor(5000);
 
-            await solutionFrame.select('#dateSelection', dates.todayPlusTwo);
+            await solutionFrame.select('#dateSelection', searchDates.todayPlusTwo);
 
             await solutionFrame.select('#departureTimeSelection', '6.5');
 

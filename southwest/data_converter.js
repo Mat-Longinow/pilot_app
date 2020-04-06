@@ -1,5 +1,9 @@
+const root = require('./../app.js');
+
 
 exports.timeConvert = (time) => {
+    // console.log(root.newTime(), 'You have entered time converter');
+    
     let newTime = time;
 
     if(newTime.includes(' ')) {
@@ -32,10 +36,12 @@ exports.timeConvert = (time) => {
         newTime = newTime.replace('AM', '');
     }
 
-    console.log(newTime);
+    return newTime;
 };
 
 exports.dateConvert = (date) => {
+    // console.log(root.newTime(), 'You have entered date converter');
+
     const currentDate = new Date();
 
     const day = currentDate.getDate();
@@ -71,4 +77,6 @@ exports.dateConvert = (date) => {
     const passedInYear = dateBreakdown[2];
 
     const passedInDate = addZero(passedInMonth) + "/" + addZero(passedInDay) + "/" + passedInYear;
+
+    return passedInDate;
 }

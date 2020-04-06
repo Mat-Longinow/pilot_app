@@ -12,7 +12,7 @@ const textConvo3 = require('./southwest/sms_convo/search_3.js');
 const sce_scrape = require('./sce/scrape.js');
 const southwest_scrape = require('./southwest/scrape.js');
 const root = require('./app.js');
-const searchParams = require('./southwest/search_params');
+const params = require('./southwest/search_params');
 
 const convert = require('./southwest/data_converter.js');
 
@@ -153,6 +153,17 @@ app.post('/sms', (req, res) => {
         }
         
         convert.dateConvert(testConvert);
+    }else if(req.body.Body === 'test') {
+        params.search_params = {
+            ...params.search_params,
+            dates: [],
+            arr_time: ['1:30 PM', '2PM'],
+            dept_time: ['1:30', '3AM']
+        }
+
+
+        southwest_scrape.scrapeInit();
+
     }else{
         twiml.message('Hmmm... I would love to help you, but it looks like I am not understanding you...');
 
