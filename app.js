@@ -90,12 +90,9 @@ app.post('/sms', (req, res) => {
     }else if (req.body.Body == 'southwest' || req.body.Body == 'Southwest' || req.body.Body == 'South west' || req.body.Body == 'south west') {
         console.log(root.newTime(), 'You entered Southwest');
 
-        southwest_scrape.scrapeInit();
-
-        // upSearch1Counter();
-        // console.log(req.session);
-        //
-        // textConvo1.textConvo1(req, res, search1Count);
+        upSearch1Counter();
+        
+        textConvo1.textConvo1(req, res, search1Count);
     }else if(search1Count > 0 && search1Count < 8) {
         textConvo1.textConvo1(req, res, search1Count);
     }else if(search1Count === 8) {
@@ -109,6 +106,8 @@ app.post('/sms', (req, res) => {
             twiml.message('Sounds good, let me grab your results real fast.');
 
             clearSearch1Counter();
+
+            southwest_scrape.scrapeInit();
 
             res.writeHead(200, {'Content-Type': 'text/xml'});
             res.end(twiml.toString());
@@ -134,6 +133,8 @@ app.post('/sms', (req, res) => {
 
             clearSearch2Counter();
 
+            southwest_scrape.scrapeInit();
+
             res.writeHead(200, {'Content-Type': 'text/xml'});
             res.end(twiml.toString());
         }else{
@@ -155,10 +156,12 @@ app.post('/sms', (req, res) => {
         convert.dateConvert(testConvert);
     }else if(req.body.Body === 'test') {
         params.search_params = {
-            ...params.search_params,
-            dates: [],
-            arr_time: ['1:30 PM', '2PM'],
-            dept_time: ['1:30', '3AM']
+            date: ['1/5','3/6'],
+            dept_time: ['1','4'],
+            arr_time: ['3', '7'],
+            dept_station: ['LAX'],
+            arr_station: ['SNA'],
+            legs: ['3']
         }
 
 

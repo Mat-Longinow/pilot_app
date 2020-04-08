@@ -8,33 +8,41 @@ exports.timeConvert = (time) => {
 
     if(newTime.includes(' ')) {
         newTime = newTime.replace(' ', '');
-    }
+    };
 
     if(newTime == '12AM') {
         newTime = '0.0';
-    }
+    };
 
     if(newTime.includes(':00')) {
         newTime = newTime.replace(':00', '')
-    }
+    };
 
     if(newTime.includes(':30')) {
         newTime = newTime.replace(':30', '.5');
-    }
+    };
 
-    if(newTime.includes('PM')) {
-        newTime = newTime.replace('PM', '');
+    if(newTime.includes('PM') || newTime.includes('pm')) {
+        if(newTime.includes('PM')) {
+            newTime = newTime.replace('PM', '');
+        }else if(newTime.includes('pm')) {
+            newTime = newTime.replace('pm', '');
+        };
 
         newTime = Number(newTime);
 
         newTime += 12;
 
         newTime = newTime.toString();
-    }
+    };
 
-    if(newTime.includes('AM')) {
-        newTime = newTime.replace('AM', '');
-    }
+    if(newTime.includes('AM') || newTime.includes('am')) {
+        if(newTime.includes('AM')) {
+            newTime = newTime.replace('AM', '');
+        }else if(newTime.includes('am')) {
+            newTime = newTime.replace('AM', '');
+        };
+    };
 
     return newTime;
 };

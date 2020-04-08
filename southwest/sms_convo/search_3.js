@@ -1,6 +1,7 @@
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const root = require('./../../app.js');
 const searchParams = require('./../search_params.js');
+const southwest_scrape = require('./../scrape.js');
 
 exports.textConvo3 = (req, res, count) => {
     const twiml = new MessagingResponse();
@@ -63,7 +64,7 @@ exports.textConvo3 = (req, res, count) => {
     }else if(search3Count === 5) {
         searchParams.search_params.dept_station.push(req.body.Body);
 
-        message = 'Flying out of ' + searchParams.search_params.dept_station[2] + "? Great choice, I've heard the burgers are fabulous there.";
+        message = 'Flying out of ' + searchParams.search_params.dept_station[2] + "? Great choice.";
 
         twiml.message(message);
 
@@ -75,7 +76,7 @@ exports.textConvo3 = (req, res, count) => {
     }else if(search3Count === 6) {
         searchParams.search_params.arr_station.push(req.body.Body);
 
-        message = 'Flying into ' + searchParams.search_params.arr_station[2] + "? Stay away from the shrimp. Just... trust me...";
+        message = 'Flying into ' + searchParams.search_params.arr_station[2] + "? Perfect.";
 
         twiml.message(message);
 
@@ -87,7 +88,7 @@ exports.textConvo3 = (req, res, count) => {
     }else if(search3Count === 7) {
         searchParams.search_params.legs.push(req.body.Body);
 
-        message = "Yeah, you're right, any more than " + searchParams.search_params.legs[2] + ' legs would be just weird.';
+        message = searchParams.search_params.legs[2] + ' legs. Got it.';
 
         twiml.message(message);
 
@@ -96,6 +97,8 @@ exports.textConvo3 = (req, res, count) => {
         twiml.message(message);
 
         upsearch3Counter();
+
+        southwest_scrape.scrapeInit();
     }
 
     console.log(searchParams.search_params);

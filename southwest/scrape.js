@@ -8,12 +8,13 @@ exports.scrapeInit = () => {
     (async () => {
         try {
             console.log(root.newTime(), 'You have entered scrape.js');
+            console.log(params.search_params);
 
             let dates = [];
             let dept_time = [];
             let arr_time = [];
 
-            params.search_params.dates.forEach((date) => {
+            params.search_params.date.forEach((date) => {
                 dates.push(convert.dateConvert(date));
             });
 
@@ -24,11 +25,6 @@ exports.scrapeInit = () => {
             params.search_params.arr_time.forEach((time) => {
                 arr_time.push(convert.timeConvert(time));
             });
-
-            console.log(params.search_params.dept_time, 'should be converted to: ', dept_time);
-            console.log(params.search_params.arr_time, 'should be converted to: ', arr_time);
-
-
 
 
             const browser = await puppeteer.launch({headless: false});
@@ -71,7 +67,7 @@ exports.scrapeInit = () => {
 
             // search #1
 
-            console.log('search #1');
+            console.log(root.newTime(), 'search #1');
 
             await solutionFrame.select('#dateSelection', searchDates.todayPlusOne);
 
@@ -91,51 +87,76 @@ exports.scrapeInit = () => {
 
             // search #2
 
-            console.log('search #2');
+            if(params.search_params.date.length == 2 &&
+            params.search_params.dept_time.length == 2 &&
+            params.search_params.arr_time.length == 2 &&
+            params.search_params.dept_station.length == 2 &&
+            params.search_params.arr_station.length == 2 &&
+            params.search_params.legs.length == 2) {
 
-            await menuFrame.click('div#input');
+                console.log(root.newTime(), 'search #2');
 
-            await page.waitFor(5000);
+                await menuFrame.click('div#input');
 
-            await solutionFrame.select('#dateSelection', searchDates.todayPlusTwo);
+                await page.waitFor(5000);
 
-            await solutionFrame.select('#departureTimeSelection', '8.5');
+                await solutionFrame.select('#dateSelection', searchDates.todayPlusTwo);
 
-            await solutionFrame.select('#arrivalTimeSelection', '11.5');
+                await solutionFrame.select('#departureTimeSelection', '8.5');
 
-            await solutionFrame.select('select[name="departureStation"]', 'SNA');
+                await solutionFrame.select('#arrivalTimeSelection', '11.5');
 
-            await solutionFrame.select('select[name="arrivalStation"]', 'LAX');
+                await solutionFrame.select('select[name="departureStation"]', 'SNA');
 
-            await solutionFrame.select('select[name="legs"]', '2');
+                await solutionFrame.select('select[name="arrivalStation"]', 'LAX');
 
-            await solutionFrame.click('#submitDiv .buttonFace');
+                await solutionFrame.select('select[name="legs"]', '2');
 
-            await page.waitFor(15000);
+                await solutionFrame.click('#submitDiv .buttonFace');
+
+                await page.waitFor(15000);
+            }
 
             // search #3
+            if(params.search_params.date.length == 3 &&
+            params.search_params.dept_time.length == 3 &&
+            params.search_params.arr_time.length == 3 &&
+            params.search_params.dept_station.length == 3 &&
+            params.search_params.arr_station.length == 3 &&
+            params.search_params.legs.length == 3) {
+                console.log(root.newTime(), 'search #3');
 
-            console.log('search #3');
+                await menuFrame.click('div#input');
 
-            await menuFrame.click('div#input');
+                await page.waitFor(5000);
 
-            await page.waitFor(5000);
+                await solutionFrame.select('#dateSelection', searchDates.todayPlusTwo);
 
-            await solutionFrame.select('#dateSelection', searchDates.todayPlusTwo);
+                await solutionFrame.select('#departureTimeSelection', '6.5');
 
-            await solutionFrame.select('#departureTimeSelection', '6.5');
+                await solutionFrame.select('#arrivalTimeSelection', '10.5');
 
-            await solutionFrame.select('#arrivalTimeSelection', '10.5');
+                await solutionFrame.select('select[name="departureStation"]', 'SNA');
 
-            await solutionFrame.select('select[name="departureStation"]', 'SNA');
+                await solutionFrame.select('select[name="arrivalStation"]', 'LAX');
 
-            await solutionFrame.select('select[name="arrivalStation"]', 'LAX');
+                await solutionFrame.select('select[name="legs"]', '4');
 
-            await solutionFrame.select('select[name="legs"]', '4');
+                await solutionFrame.click('#submitDiv .buttonFace');
 
-            await solutionFrame.click('#submitDiv .buttonFace');
+                await page.waitFor(15000);
+            };
 
-            await page.waitFor(15000);
+            console.log(root.newTime(), 'All done! Resetting Search Params.');
+
+            params.search_params = {
+                date: [],
+                dept_time: [],
+                arr_time: [],
+                dept_station: [],
+                arr_station: [],
+                legs: []
+            };
 
         } catch (err) {
             console.log(Error(err));
