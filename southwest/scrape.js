@@ -10,6 +10,8 @@ exports.scrapeInit = () => {
             console.log(root.newTime(), 'You have entered scrape.js');
             console.log(params.search_params);
 
+
+            // Setup
             let dates = [];
             let dept_time = [];
             let arr_time = [];
@@ -26,6 +28,15 @@ exports.scrapeInit = () => {
                 arr_time.push(convert.timeConvert(time));
             });
 
+            const todaysDate = convert.today;
+            const tomorrowsDate = convert.dateConvert(convert.currentDate + 1);
+
+            console.log('todaysDate', todaysDate);
+            console.log('tomorrow', tomorrowsDate);
+
+
+
+            // Web Scrape
 
             const browser = await puppeteer.launch({headless: false});
             const page = await browser.newPage();

@@ -51,27 +51,38 @@ exports.dateConvert = (date) => {
     // console.log(root.newTime(), 'You have entered date converter');
 
     const currentDate = new Date();
+    exports.currentDate = currentDate;
 
-    const day = currentDate.getDate();
-    let month = currentDate.getMonth();  //Be careful! January is 0 not 1
-    month = (Number(month) + 1).toString();
-    const year = currentDate.getFullYear();
+    const dateParse = (date) => {
+        const day = date.getDate();
+        let month = date.getMonth();  //Be careful! January is 0 not 1
+        month = (Number(month) + 1).toString();
+        const year = date.getFullYear();
 
-    const addZero = (num) => {
-        let newNum = num;
-        
-        if(Number(num) < 10) {
-            newNum = "0" + num;
+        const addZero = (num) => {
+            let newNum = num;
+            
+            if(Number(num) < 10) {
+                newNum = "0" + num;
+            }
+
+            return newNum;
         }
 
-        return newNum;
+        const newDate = addZero(month) + "/" + addZero(day) + "/" + year;
+
+        return newDate;
     }
 
-    const today = addZero(month) + "/" + addZero(day) + "/" + year;
+    const today = dateParse(currentDate);
+    exports.today = today;
+    exports.dateParse = (date) => {
+        dateParse(date);
+    };
 
     const dateBreakdown = date.split("/");
 
-    if(dateBreakdown.length ==3) {
+    if(dateBreakdown.length == 3) {
         // Make sure that the year is in 20xx format
         if(Number(dateBreakdown[2]) > 19 && Number(dateBreakdown[2]) < 100) {
             dateBreakdown[2] = "20" + dateBreakdown[2];
